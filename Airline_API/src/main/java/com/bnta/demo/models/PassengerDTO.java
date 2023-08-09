@@ -20,7 +20,6 @@ public class PassengerDTO {
 
     // getters and setters
 
-
     public String getName() {
         return name;
     }

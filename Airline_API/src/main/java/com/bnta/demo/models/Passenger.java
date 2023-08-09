@@ -41,7 +41,6 @@ public class Passenger {
 
     // getters and setters
 
-
     public Long getId() {
         return id;
     }
@@ -72,5 +71,9 @@ public class Passenger {
 
     public void setFlights(List<Flight> flights) {
         this.flights = flights;
+    }
+
+    public void addFlight(Flight flight) {
+        this.flights.add(flight);
     }
 }

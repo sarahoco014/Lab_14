@@ -1,55 +1,24 @@
 package com.bnta.demo.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "flights")
-public class Flight {
+public class FlightDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column
     private String destination;
-
-    @Column
     private int capacity;
-
-    @Column
     private String departureDate;
-
-    @Column
     private String departureTime;
+    private List<Long> flightIds;
 
-    @JsonIgnoreProperties({"flights"})
-    @ManyToMany(mappedBy = "flights") // has to match line 30:chocolate estates property name
-    private List<Passenger> passengers;
-
-    public Flight(String destination, int capacity, String departureDate, String departureTime) {
+    public FlightDTO(String destination, int capacity, String departureDate, String departureTime, List<Long> flightIds) {
         this.destination = destination;
         this.capacity = capacity;
         this.departureDate = departureDate;
         this.departureTime = departureTime;
-        this.passengers = new ArrayList<Passenger>();
+        this.flightIds = flightIds;
     }
 
-    // default constructor
-    public Flight() {}
-
-    // getters and setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public FlightDTO(){}
 
     public String getDestination() {
         return destination;
@@ -83,11 +52,11 @@ public class Flight {
         this.departureTime = departureTime;
     }
 
-    public List<Passenger> getPassengers() {
-        return passengers;
+    public List<Long> getFlightIds() {
+        return flightIds;
     }
 
-    public void setPassengers(List<Passenger> passengers) {
-        this.passengers = passengers;
+    public void setFlightIds(List<Long> flightIds) {
+        this.flightIds = flightIds;
     }
 }
