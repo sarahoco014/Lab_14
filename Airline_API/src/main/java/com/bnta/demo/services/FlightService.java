@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FlightService {
@@ -27,6 +28,17 @@ public class FlightService {
 
     public Flight displaySpecificFlight(Long id) {
         return flightRepository.findById(id).get();
+    }
+
+    public String cancelFlight(Flight flight) {
+        Optional<Flight> optionalFlight = flightRepository.findById(flight.getId());
+
+        if(optionalFlight.isPresent()) {
+            flightRepository.delete(optionalFlight.get());
+            return "Your flight was successfully cancelled.";
+        } else {
+            return "Please try again.";
+        }
     }
 
 }

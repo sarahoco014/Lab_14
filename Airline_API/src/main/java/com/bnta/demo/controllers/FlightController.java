@@ -23,17 +23,26 @@ public class FlightController {
 
     @Autowired
     FlightRepository flightRepository;
+
     @PostMapping(value = "/flight") // add new passenger
     public ResponseEntity<Flight> addFlight(@RequestBody FlightDTO flightDTO) {
         Flight addedFlight = flightService.addFlight(flightDTO);
         return new ResponseEntity<>(addedFlight, HttpStatus.CREATED);
     }
+
     @GetMapping // display all flights
     public ResponseEntity<List<Flight>> displayAllFlights() {
         return new ResponseEntity<>(flightRepository.findAll(), HttpStatus.OK);
     }
+
     @GetMapping(value = "/{id}")// display details of a specific flight
     public ResponseEntity<Optional<Flight>> getSpecificFlight(@PathVariable Long id) {
         return new ResponseEntity<>(flightRepository.findById(id), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<String> cancelFlight(@PathVariable Flight flight) {
+        String cancelledFlight = flightService.cancelFlight(flight);
+        return new ResponseEntity<>(cancelledFlight, HttpStatus.CREATED);
     }
 }
