@@ -1,4 +1,7 @@
 package com.bnta.demo.repositories;
+import com.bnta.demo.models.Passenger;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public class PassengerRepository {
+public interface PassengerRepository extends JpaRepository<Passenger, Long> {
 }
+
