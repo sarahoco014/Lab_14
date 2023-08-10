@@ -1,16 +1,20 @@
 package com.bnta.demo.models;
 
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class FlightDTO {
 
     private String destination;
     private int capacity;
-    private String departureDate;
-    private String departureTime;
+    private LocalDate departureDate;
+    private LocalTime departureTime;
     private List<Long> flightIds;
 
-    public FlightDTO(String destination, int capacity, String departureDate, String departureTime, List<Long> flightIds) {
+    public FlightDTO(String destination, int capacity, LocalDate departureDate, LocalTime departureTime, List<Long> flightIds) {
         this.destination = destination;
         this.capacity = capacity;
         this.departureDate = departureDate;
@@ -36,19 +40,19 @@ public class FlightDTO {
         this.capacity = capacity;
     }
 
-    public String getDepartureDate() {
+    public LocalDate getDepartureDate() {
         return departureDate;
     }
 
-    public void setDepartureDate(String departureDate) {
+    public void setDepartureDate(LocalDate departureDate) {
         this.departureDate = departureDate;
     }
 
-    public String getDepartureTime() {
+    public LocalTime getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(String departureTime) {
+    public void setDepartureTime(LocalTime departureTime) {
         this.departureTime = departureTime;
     }
 
