@@ -34,11 +34,18 @@ public class FlightController {
     public ResponseEntity<List<Flight>> displayAllFlightsFilterDestination(
             @RequestParam(required = false, name = "flightDestination") String flightDestination
     ) {
-        if(flightDestination != null) {
-            return new ResponseEntity<>(flightService.findAllFlightsByDestination(flightDestination), HttpStatus.OK);
+        List<Flight> filteredFlights;
+
+        if (flightDestination != null) {
+            filteredFlights = flightRepository.findByDestination(flightDestination);
+            if (filteredFlights.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(flightRepository.findAll(), HttpStatus.OK);
+    } else {
+        filteredFlights = flightRepository.findAll();
     }
+        return new ResponseEntity<>(filteredFlights, HttpStatus.OK);
+}
 
     @GetMapping(value = "/{id}")// display details of a specific flight
     public ResponseEntity<Optional<Flight>> getSpecificFlight(@PathVariable Long id) {
