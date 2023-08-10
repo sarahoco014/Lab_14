@@ -42,7 +42,7 @@ public class FlightService {
     }
 
     public List<Flight> findAllFlightsByDestination(String destination) {
-        return flightRepository.findByDestination(destination;
+        return flightRepository.findByDestination(destination);
     }
 
 }

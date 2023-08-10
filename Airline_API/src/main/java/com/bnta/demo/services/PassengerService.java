@@ -24,11 +24,12 @@ public class PassengerService {
 
     @Autowired
     FlightService flightService;
-    public Passenger addPassenger(PassengerDTO passengerDTO){
+
+    public Passenger addPassenger(PassengerDTO passengerDTO) {
 
         Passenger passenger = new Passenger(passengerDTO.getName(), passengerDTO.getEmailAddress());
 
-        for(Long flightId : passengerDTO.getFlightIds()) {
+        for (Long flightId : passengerDTO.getFlightIds()) {
             Flight flight = flightRepository.findById(flightId).get();
 
             passenger.addFlight(flight);
@@ -44,23 +45,27 @@ public class PassengerService {
         return passengerRepository.findById(id).get();
     }
 
-    public String bookPassengerOntoFlight(Long passengerId, Long flightId) {
+    public String bookPassengerOntoFlight(Long passengerId, Long flightId) { // adds functionality if flight is full
         Optional<Passenger> optionalPassenger = passengerRepository.findById(passengerId);
         Optional<Flight> optionalFlight = flightRepository.findById(flightId);
 
-        if(optionalPassenger.isPresent() && optionalFlight.isPresent()) {
+        if (!optionalPassenger.isPresent() && !optionalFlight.isPresent()) {
+            return "Your booking was not successful. Please try again.";
+        } else {
             Passenger passenger = optionalPassenger.get();
             Flight flight = optionalFlight.get();
 
-            passenger.getFlights().add(flight);
-            flight.getPassengers().add(passenger);
+            if (flight.getPassengers().size() >= flight.getCapacity()) {
+                return "This flight is full. Please choose another flight.";
+            } else {
+                passenger.getFlights().add(flight);
+                flight.getPassengers().add(passenger);
 
-            passengerRepository.save(passenger);
-            flightRepository.save(flight);
+                passengerRepository.save(passenger);
+                flightRepository.save(flight);
 
-            return "Your booking was successful.";
-        } else {
-            return "Your booking was not successful. Please try again.";
+                return "Your booking was successful.";
+            }
         }
     }
 }
