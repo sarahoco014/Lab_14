@@ -30,26 +30,32 @@ public class FlightController {
         return new ResponseEntity<>(addedFlight, HttpStatus.CREATED);
     }
 
-    @GetMapping // display all flights and filter by destination
+    @GetMapping
     public ResponseEntity<List<Flight>> displayAllFlightsFilterDestination(
-            @RequestParam(required = false, name = "flightDestination") String flightDestination
-    ) {
+            @RequestParam(required = false, name = "flightDestination") String flightDestination) {
+
         List<Flight> filteredFlights;
 
-        if (flightDestination != null) {
-            filteredFlights = flightRepository.findByDestination(flightDestination);
-            if (filteredFlights.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if(flightDestination != null) {
+            filteredFlights = flightService.findAllFlightsByDestination(flightDestination);
+        } else {
+            filteredFlights = flightService.displayAllFlights();
         }
-    } else {
-        filteredFlights = flightRepository.findAll();
-    }
+
+        if(flightDestination == null && filteredFlights.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(filteredFlights, HttpStatus.OK);
-}
+    }
 
     @GetMapping(value = "/{id}")// display details of a specific flight
-    public ResponseEntity<Optional<Flight>> getSpecificFlight(@PathVariable Long id) {
-        return new ResponseEntity<>(flightRepository.findById(id), HttpStatus.OK);
+    public ResponseEntity<Flight> getSpecificFlight(@PathVariable Long id) {
+        Flight flight = flightService.displaySpecificFlight(id);
+
+        if(flight == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(flight, HttpStatus.OK);
     }
 
     @PostMapping // cancel flight

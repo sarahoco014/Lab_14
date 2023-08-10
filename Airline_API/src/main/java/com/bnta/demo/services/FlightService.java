@@ -42,7 +42,10 @@ public class FlightService {
     }
 
     public List<Flight> findAllFlightsByDestination(String destination) {
-        return flightRepository.findByDestination(destination);
+        if(destination != null) {
+            return flightRepository.findByDestination(destination);
+        }
+        return flightRepository.findAll();
     }
 
 }
