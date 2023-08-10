@@ -17,7 +17,7 @@ public class FlightController {
     @Autowired
     FlightService flightService;
 
-    @PostMapping(value = "/addpassenger") // add new passenger, POST CREATE "/flights/addpassenger"
+    @PostMapping(value = "/addflight") // add flight, POST CREATE "/flights/addflight"
     public ResponseEntity<Flight> addFlight(@RequestBody FlightDTO flightDTO) {
         Flight addedFlight = flightService.addFlight(flightDTO);
         return new ResponseEntity<>(addedFlight, HttpStatus.CREATED);

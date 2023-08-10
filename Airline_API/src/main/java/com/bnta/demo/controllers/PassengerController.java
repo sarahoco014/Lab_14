@@ -42,8 +42,8 @@ public class PassengerController {
 
     @PostMapping(value = "/book") // book a passenger onto a flight, POST UPDATE "/passengers/book"
     public ResponseEntity<String> bookPassengerOntoFlight(
-            @PathVariable Long passengerId,
-            @PathVariable Long flightId) {
+            @RequestParam Long passengerId,
+            @RequestParam Long flightId) {
 
         String bookPassenger = passengerService.bookPassengerOntoFlight(passengerId, flightId);
 
