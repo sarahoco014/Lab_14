@@ -6,8 +6,6 @@ import com.bnta.demo.models.PassengerDTO;
 import com.bnta.demo.repositories.FlightRepository;
 import com.bnta.demo.repositories.PassengerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

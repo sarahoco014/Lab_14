@@ -3,7 +3,6 @@ package com.bnta.demo.services;
 import com.bnta.demo.models.Flight;
 import com.bnta.demo.models.FlightDTO;
 import com.bnta.demo.models.Passenger;
-import com.bnta.demo.models.PassengerDTO;
 import com.bnta.demo.repositories.FlightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,22 +29,31 @@ public class FlightService {
         return flightRepository.findById(id).get();
     }
 
-    public String cancelFlight(Flight flight) {
-        Optional<Flight> optionalFlight = flightRepository.findById(flight.getId());
-
-        if(optionalFlight.isPresent()) {
-            flightRepository.delete(optionalFlight.get());
-            return "Your flight was successfully cancelled.";
-        } else {
-            return "Please try again.";
-        }
-    }
-
     public List<Flight> findAllFlightsByDestination(String destination) {
         if(destination != null) {
             return flightRepository.findByDestination(destination);
         }
         return flightRepository.findAll();
+    }
+
+    public String cancelFlight(Long id) {
+        Optional<Flight> optionalFlight = flightRepository.findById(id);
+
+        if(optionalFlight.isPresent()) {
+            Flight flight = optionalFlight.get();
+
+            for(Passenger passenger : flight.getPassengers()) {
+                passenger.getFlights().remove(flight);
+            }
+
+            flight.getPassengers().clear();
+
+            flightRepository.delete(flight);
+
+            return "Your flight has been cancelled successfully";
+        } else {
+            return "Flight not found";
+        }
     }
 
 }

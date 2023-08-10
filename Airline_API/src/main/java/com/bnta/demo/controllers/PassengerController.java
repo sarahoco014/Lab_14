@@ -18,18 +18,18 @@ public class PassengerController {
     @Autowired
     PassengerService passengerService;
 
-    @PostMapping(value = "/passenger") // add new passenger
+    @PostMapping // add new passenger, POST CREATE "/passengers"
     public ResponseEntity<Passenger> addPassenger(@RequestBody PassengerDTO passengerDTO) {
         Passenger addedPassenger = passengerService.addPassenger(passengerDTO);
         return new ResponseEntity<>(addedPassenger, HttpStatus.CREATED);
     }
 
-    @GetMapping // display all passengers
+    @GetMapping // display all passengers, GET INDEX "/passengers"
     public ResponseEntity<List<Passenger>> displayAllPassengers() {
         return new ResponseEntity<>(passengerService.displayAllPassengers(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}")// display details of a specific passenger
+    @GetMapping(value = "/{id}")// display details of a specific passenger, GET SHOW /passengers/id
     public ResponseEntity<Passenger> getSpecificPassenger(@PathVariable Long id) {
         Optional<Passenger> optionalPassenger = passengerService.displaySpecificPassenger(id);
 
@@ -40,7 +40,7 @@ public class PassengerController {
         }
     }
 
-    @PostMapping(value = "/book") // book a passenger onto a flight
+    @PostMapping(value = "/book") // book a passenger onto a flight, POST UPDATE "/passengers/book"
     public ResponseEntity<String> bookPassengerOntoFlight(
             @PathVariable Long passengerId,
             @PathVariable Long flightId) {

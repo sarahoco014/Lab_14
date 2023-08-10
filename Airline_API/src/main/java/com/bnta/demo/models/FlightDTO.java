@@ -12,14 +12,14 @@ public class FlightDTO {
     private int capacity;
     private LocalDate departureDate;
     private LocalTime departureTime;
-    private List<Long> flightIds;
+    private List<Long> passengerIds;
 
-    public FlightDTO(String destination, int capacity, LocalDate departureDate, LocalTime departureTime, List<Long> flightIds) {
+    public FlightDTO(String destination, int capacity, LocalDate departureDate, LocalTime departureTime, List<Long> passengerIds) {
         this.destination = destination;
         this.capacity = capacity;
         this.departureDate = departureDate;
         this.departureTime = departureTime;
-        this.flightIds = flightIds;
+        this.passengerIds = passengerIds;
     }
 
     public FlightDTO(){}
@@ -56,11 +56,11 @@ public class FlightDTO {
         this.departureTime = departureTime;
     }
 
-    public List<Long> getFlightIds() {
-        return flightIds;
+    public List<Long> getPassengerIds() {
+        return passengerIds;
     }
 
-    public void setFlightIds(List<Long> flightIds) {
-        this.flightIds = flightIds;
+    public void setPassengerIds(List<Long> flightIds) {
+        this.passengerIds = flightIds;
     }
 }

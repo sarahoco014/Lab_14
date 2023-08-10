@@ -54,7 +54,7 @@ public class DataLoader implements ApplicationRunner {
         passengerRepository.save(brian);
 
     // Emirates Flight
-        Flight emirates = new Flight("Emirates", 300, departureDate, departureTime);
+        Flight emirates = new Flight("Berlin", 300, departureDate, departureTime);
         flightRepository.save(emirates);
 
         Passenger tanya = new Passenger("Tanya", "567@gmail.com");

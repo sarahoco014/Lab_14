@@ -17,26 +17,30 @@ public class FlightController {
     @Autowired
     FlightService flightService;
 
-    @PostMapping(value = "/flight") // add new passenger
+    @PostMapping(value = "/addpassenger") // add new passenger, POST CREATE "/flights/addpassenger"
     public ResponseEntity<Flight> addFlight(@RequestBody FlightDTO flightDTO) {
         Flight addedFlight = flightService.addFlight(flightDTO);
         return new ResponseEntity<>(addedFlight, HttpStatus.CREATED);
     }
 
-    @GetMapping // display all flights and filter by destination
+    @GetMapping // display all flights and filter by destination, GET INDEX "/flights"
     public ResponseEntity<List<Flight>> displayAllFlightsFilterDestination(
             @RequestParam(required = false, name = "flightDestination") String flightDestination) {
 
-        List<Flight> filteredFlights = flightService.findAllFlightsByDestination(flightDestination);
+        List<Flight> filteredFlights;
 
+        if(flightDestination != null) {
+            filteredFlights = flightService.findAllFlightsByDestination(flightDestination);
+        } else {
+            filteredFlights = flightService.displayAllFlights();
+            }
         if(filteredFlights.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(filteredFlights, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}")// display details of a specific flight
+    @GetMapping(value = "/{id}")// display details of a specific flight, GET SHOW "/flights/id"
     public ResponseEntity<Flight> getSpecificFlight(@PathVariable Long id) {
         Flight flight = flightService.displaySpecificFlight(id);
 
@@ -46,9 +50,9 @@ public class FlightController {
         return new ResponseEntity<>(flight, HttpStatus.OK);
     }
 
-    @PostMapping // cancel flight
-    public ResponseEntity<String> cancelFlight(@PathVariable Flight flight) {
-        String cancelledFlight = flightService.cancelFlight(flight);
-        return new ResponseEntity<>(cancelledFlight, HttpStatus.CREATED);
+    @DeleteMapping(value = "{id}") // cancel flight, POST DELETE "/flights/id
+    public ResponseEntity<String> cancelFlight(@PathVariable Long id) {
+        String cancelledFlight = flightService.cancelFlight(id);
+        return new ResponseEntity<>(cancelledFlight, HttpStatus.OK);
     }
 }
