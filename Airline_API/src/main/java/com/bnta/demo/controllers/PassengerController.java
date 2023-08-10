@@ -48,9 +48,9 @@ public class PassengerController {
             @PathVariable Long passengerId,
             @PathVariable Long flightId) {
 
-        String bookPassenger = passengerService.bookPassengerOntoFlight(passengerId, flightId);
+        ResponseEntity<String> bookPassenger = passengerService.bookPassengerOntoFlight(passengerId, flightId);
 
-        return new ResponseEntity<>(bookPassenger, HttpStatus.OK);
+        return bookPassenger;
 
     }
 }

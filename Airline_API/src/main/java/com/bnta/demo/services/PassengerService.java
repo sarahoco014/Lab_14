@@ -45,18 +45,18 @@ public class PassengerService {
         return passengerRepository.findById(id).get();
     }
 
-    public String bookPassengerOntoFlight(Long passengerId, Long flightId) { // adds functionality if flight is full
+    public ResponseEntity<String> bookPassengerOntoFlight(Long passengerId, Long flightId) { // adds functionality if flight is full
         Optional<Passenger> optionalPassenger = passengerRepository.findById(passengerId);
         Optional<Flight> optionalFlight = flightRepository.findById(flightId);
 
         if (!optionalPassenger.isPresent() && !optionalFlight.isPresent()) {
-            return "Your booking was not successful. Please try again.";
+            return new ResponseEntity<>("Your booking was not successful, please try again.", HttpStatus.BAD_REQUEST);
         } else {
             Passenger passenger = optionalPassenger.get();
             Flight flight = optionalFlight.get();
 
             if (flight.getPassengers().size() >= flight.getCapacity()) {
-                return "This flight is full. Please choose another flight.";
+                return new ResponseEntity<>("This flight is full, please choose another flight.", HttpStatus.CONFLICT);
             } else {
                 passenger.getFlights().add(flight);
                 flight.getPassengers().add(passenger);
@@ -64,7 +64,7 @@ public class PassengerService {
                 passengerRepository.save(passenger);
                 flightRepository.save(flight);
 
-                return "Your booking was successful.";
+                return new ResponseEntity<>("Your booking was successful!", HttpStatus.OK);
             }
         }
     }
